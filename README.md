@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Linali Kariyawasam</h1>
-<h3 align="center">I am Computer Science Undergraduate at SLIIT</h3>
+<h3 align="center">I am a Computer Science Undergraduate at SLIIT</h3>
 
 - 📫 Reach me via **Kariyawasam2335@gmail.com**
 
