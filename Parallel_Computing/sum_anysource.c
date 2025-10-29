@@ -8,6 +8,8 @@ int main(int argc, char** argv) {
     long long start_i, end_i;
     double start, end;
 
+    MPI_Status status;
+
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -21,22 +23,22 @@ int main(int argc, char** argv) {
     }
 
    //e3 
-MPI_Reduce(&local_sum, &total_sum, 1, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
-//    // e7 
-//     if (rank == 0) {
-//         total_sum = local_sum;
-//         for (int i = 1; i < size; i++) {
-//             long long recv_sum;
-//             MPI_Recv(&recv_sum, 1, MPI_LONG_LONG, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
-//             total_sum += recv_sum;
-//             printf("Received partial sum from process %d\n", status.MPI_SOURCE);
-//         }
-//         printf("Total sum = %lld\n", total_sum);
-//     }
-//     else {
-//         MPI_Send(&local_sum, 1, MPI_LONG_LONG, 0, 0, MPI_COMM_WORLD);
-//     }
-//    // e7 
+   // MPI_Reduce(&local_sum, &total_sum, 1, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+   // e7 
+    if (rank == 0) {
+        total_sum = local_sum;
+        for (int i = 1; i < size; i++) {
+            long long recv_sum;
+            MPI_Recv(&recv_sum, 1, MPI_LONG_LONG, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
+            total_sum += recv_sum;
+            printf("Received partial sum from process %d\n", status.MPI_SOURCE);
+        }
+        printf("Total sum = %lld\n", total_sum);
+    }
+    else {
+        MPI_Send(&local_sum, 1, MPI_LONG_LONG, 0, 0, MPI_COMM_WORLD);
+    }
+   // e7 
    end = MPI_Wtime();
 
     if (rank == 0) {
